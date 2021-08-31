@@ -1,12 +1,11 @@
-import React from 'react';
+import React from 'react'
 
 function Timeline() {
-return(
-    
-)
+    return (
+        <div>
+            
+        </div>
+    )
 }
 
-
-
-
-export default Timeline;
+export default Timeline
