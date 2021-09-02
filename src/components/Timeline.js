@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Timeline() {
+function Timeline(props) {
     return (
         <div>
             
