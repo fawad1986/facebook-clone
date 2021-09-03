@@ -36,7 +36,6 @@ function LoginPage(props) {
                 <a href="#" className="login-a">Forgotten Password ?</a>
                 <div className="hr  "></div>
                 <button className="Create-btn">Create Account</button>
-
             </form>
             <p className="login-p"><strong>Create a page</strong> for celebrity, band or business.</p>
         </div>
