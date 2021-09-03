@@ -4,6 +4,8 @@ import LoginPage from './components/LoginPage';
 import SignupPage from './components/SignupPage';
 import React , { useState } from 'react';
 
+import Timeline from './components/Timeline'
+
 function App() {
 
   const [stateObj, setStateObj] = useState( {"LoginStatus":'','UserName':'','Route':'/'} );
@@ -16,7 +18,7 @@ function App() {
   return (
     <div className="App">
       {returnComponentBasedOnRoute(stateObj.Route)}
-
+      
     </div> 
   );
 
@@ -34,9 +36,7 @@ function App() {
 
       case 'Main':
         return (
-        <div>
-          <p><b>Welcome</b></p>
-        </div>
+        <Timeline />
         )
         break;
     }
