@@ -1,27 +1,44 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import { FaRegCommentAlt, FaRegThumbsUp, FaShareAlt } from 'react-icons/fa'
 
 function Showpost() {
-    const [state, setstate] = useState([
-        {id:1, userImg:"./images/two.png", 
-        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec suscipit, nisi at consectetur convallis, orci velit vehicula dolor, at mattis lorem augue quis dolor. Nullam id dignissim eros, fringilla posuere nibh.',
-        postImg:'./images/one.png',userName:'Syed Ammad Hassan',postTime:'21h'},
-        {id:2, userImg:"./images/one.png", 
-        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec suscipit, nisi at consectetur convallis, orci velit vehicula dolor, at mattis lorem augue quis dolor. Nullam id dignissim eros, fringilla posuere nibh.',
-        postImg:'./images/two.png',userName:'Asad Naveed',postTime:'18h'},
-        {id:3, userImg:"./images/three.jpg", 
-        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec suscipit, nisi at consectetur convallis, orci velit vehicula dolor, at mattis lorem augue quis dolor. Nullam id dignissim eros, fringilla posuere nibh.',
-        postImg:'./images/one.png',userName:'Syed Fawad Hassan',postTime:'14h'},
-        {id:4, userImg:"./images/two.png", 
-        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec suscipit, nisi at consectetur convallis, orci velit vehicula dolor, at mattis lorem augue quis dolor. Nullam id dignissim eros, fringilla posuere nibh.',
-        postImg:'./images/three.jpg',userName:'Syed Ammad Hassan',postTime:'21h'},
-        {id:5, userImg:"./images/one.png", 
-        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec suscipit, nisi at consectetur convallis, orci velit vehicula dolor, at mattis lorem augue quis dolor. Nullam id dignissim eros, fringilla posuere nibh.',
-        postImg:'./images/one.png',userName:'Asad Naveed',postTime:'18h'},
-        {id:6, userImg:"./images/three.jpg", 
-        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec suscipit, nisi at consectetur convallis, orci velit vehicula dolor, at mattis lorem augue quis dolor. Nullam id dignissim eros, fringilla posuere nibh.',
-        postImg:'./images/two.png',userName:'Syed Fawad Hassan',postTime:'14h'}
-    ])
+
+    const fetchDataFromApi = () =>
+    {
+        //Get data from Api here
+        let fakeUserData = [
+            {id:1, userImg:"./images/two.png", 
+            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec suscipit, nisi at consectetur convallis, orci velit vehicula dolor, at mattis lorem augue quis dolor. Nullam id dignissim eros, fringilla posuere nibh.',
+            postImg:'./images/one.png',userName:'Syed Ammad Hassan',postTime:'21h'},
+            {id:2, userImg:"./images/one.png", 
+            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec suscipit, nisi at consectetur convallis, orci velit vehicula dolor, at mattis lorem augue quis dolor. Nullam id dignissim eros, fringilla posuere nibh.',
+            postImg:'./images/two.png',userName:'Asad Naveed',postTime:'18h'},
+            {id:3, userImg:"./images/three.jpg", 
+            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec suscipit, nisi at consectetur convallis, orci velit vehicula dolor, at mattis lorem augue quis dolor. Nullam id dignissim eros, fringilla posuere nibh.',
+            postImg:'./images/one.png',userName:'Syed Fawad Hassan',postTime:'14h'},
+            {id:4, userImg:"./images/two.png", 
+            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec suscipit, nisi at consectetur convallis, orci velit vehicula dolor, at mattis lorem augue quis dolor. Nullam id dignissim eros, fringilla posuere nibh.',
+            postImg:'./images/three.jpg',userName:'Syed Ammad Hassan',postTime:'21h'},
+            {id:5, userImg:"./images/one.png", 
+            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec suscipit, nisi at consectetur convallis, orci velit vehicula dolor, at mattis lorem augue quis dolor. Nullam id dignissim eros, fringilla posuere nibh.',
+            postImg:'./images/one.png',userName:'Asad Naveed',postTime:'18h'},
+            {id:6, userImg:"./images/three.jpg", 
+            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec suscipit, nisi at consectetur convallis, orci velit vehicula dolor, at mattis lorem augue quis dolor. Nullam id dignissim eros, fringilla posuere nibh.',
+            postImg:'./images/two.png',userName:'Syed Fawad Hassan',postTime:'14h'}
+        ];
+        return fakeUserData;
+    }
+
+    const [state, setstate] = useState([{}])
+    useEffect(
+        () =>{
+
+            let data = fetchDataFromApi();
+            setstate(data);
+        }
+        ,[]
+    );
+    
     return (
         <div className="show">
             {state.map(post => (

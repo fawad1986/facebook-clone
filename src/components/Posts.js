@@ -6,7 +6,7 @@ import Showpost from './Showpost.js'
 function Posts(props) {
     return (
         <div className="posts">
-            <Stories  />
+            <Stories/>
             <Create />
             <Showpost/>
         </div>
