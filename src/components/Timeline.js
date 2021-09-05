@@ -2,6 +2,7 @@ import React,{useState,useEffect} from 'react'
 import Navbar from './Navbar';
 import Posts from './Posts';
 import Sidebar from './Sidebar';
+import ChatBar from './ChatBar';
 
 
 function Timeline(props) {
@@ -39,6 +40,7 @@ function Timeline(props) {
         <Sidebar data={UserData.sideBar}/>
       </div>
       <Posts />
+      <ChatBar />
         </div>
     )
 }
