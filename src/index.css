@@ -417,6 +417,7 @@ border-radius: 10px;
   position: fixed;
   top: 80px;
   right: 0;
+  overflow-y: scroll;
 }
 .chatbar__list{
   display:flex;
