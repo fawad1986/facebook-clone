@@ -1,4 +1,5 @@
-import React , { useState } from 'react';
+import React , { useState,useEffect } from 'react';
+const genericResponse =require('../../node Api/responses/genericResponse');
 
 function LoginPage(props) {
     const [stateObj, setStateObj] = useState( {"Email":'',"Password":''} );
@@ -19,13 +20,30 @@ function LoginPage(props) {
     }
 
     function validateFromApi(data){
+        const methods={
+            methods: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+              },
+              body: JSON.stringify(data)
+        }
         // To Do: Make Api call, for now its mock data
+        fetch('${process.env.REACT_APP_LOGIN_API}${REACT_APP_LOGIN_ENDPOINT }',methods).then(response =>response.json()
+        ).then(data =>{
+            setStateObj(data);
+        }).catch(error => console.log(error));
+
+       
 
         if (data.Email == "example@example.com" && data.Password == "abc123"){
             return true;
         }
         return false;
     }
+    useEffect(()=>{
+        validateFromApi();
+    });
 
     return (
         <div className="login-page">
