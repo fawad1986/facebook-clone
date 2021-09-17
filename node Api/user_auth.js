@@ -6,8 +6,21 @@ const express = require('express');
 const mysql = require('mysql')
 const app = express();
 const PORT = 5000;
+const cors  = require('cors');
+//var bodyParser = require('body-parser')
 app.use(express.json());
+app.use(cors());
+//app.use(express.json());
 //app.use(cors());
+
+/*
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+// parse application/json
+app.use(bodyParser.json())
+// parse application/vnd.api+json as json
+app.use(bodyParser.json({ type: 'application/vnd.api+json' }))
+*/
 
 // create database connection
 const db= mysql.createConnection({
@@ -39,13 +52,15 @@ app.post('/usersignin', (req,res) =>{
             genericError.error=err.stack;
             console.log(err.stack);
             res.send(genericError);
+            return;
         }
         if(result.length==0 || result.length ==undefined || result[0].id==undefined){
             res.status(404);
             genericError.status= '404';
             genericError.error = 'email or password incorrect';
             console.log(genericError.error);
-            res.send(genericError);            
+            res.send(genericError);
+            return;            
         }
         genericResponse.status='200';
         genericResponse.data = result;
