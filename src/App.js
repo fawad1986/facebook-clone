@@ -29,7 +29,7 @@ function App() {
         return (
           <div>
           <LoginPage parentCallback = {changeGlobalState} parentState = {stateObj}/>
-          <SignupPage />
+          <SignupPage parentCallback={changeGlobalState} parentState = {stateObj}/>
           </div>
         )
         break;
