@@ -1,63 +1,71 @@
-import React,{useState,useEffect} from 'react'
-import { FaRegCommentAlt, FaRegThumbsUp, FaShareAlt } from 'react-icons/fa'
+import React,{useState,useEffect} from 'react';
+import { FaRegCommentAlt, FaRegThumbsUp, FaShareAlt } from 'react-icons/fa';
+import ShowPost_req from '../server/requests/showPostRequest';
+import sendRequest from '../util/requestFactory';
 
 function Showpost() {
 
-    const fetchDataFromApi = () =>
-    {
-        //Get data from Api here
-        let fakeUserData = [
-            {id:1, userImg:"./images/two.png", 
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec suscipit, nisi at consectetur convallis, orci velit vehicula dolor, at mattis lorem augue quis dolor. Nullam id dignissim eros, fringilla posuere nibh.',
-            postImg:'./images/one.png',userName:'Syed Ammad Hassan',postTime:'21h'},
-            {id:2, userImg:"./images/one.png", 
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec suscipit, nisi at consectetur convallis, orci velit vehicula dolor, at mattis lorem augue quis dolor. Nullam id dignissim eros, fringilla posuere nibh.',
-            postImg:'./images/two.png',userName:'Asad Naveed',postTime:'18h'},
-            {id:3, userImg:"./images/three.jpg", 
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec suscipit, nisi at consectetur convallis, orci velit vehicula dolor, at mattis lorem augue quis dolor. Nullam id dignissim eros, fringilla posuere nibh.',
-            postImg:'./images/one.png',userName:'Syed Fawad Hassan',postTime:'14h'},
-            {id:4, userImg:"./images/two.png", 
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec suscipit, nisi at consectetur convallis, orci velit vehicula dolor, at mattis lorem augue quis dolor. Nullam id dignissim eros, fringilla posuere nibh.',
-            postImg:'./images/three.jpg',userName:'Syed Ammad Hassan',postTime:'21h'},
-            {id:5, userImg:"./images/one.png", 
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec suscipit, nisi at consectetur convallis, orci velit vehicula dolor, at mattis lorem augue quis dolor. Nullam id dignissim eros, fringilla posuere nibh.',
-            postImg:'./images/one.png',userName:'Asad Naveed',postTime:'18h'},
-            {id:6, userImg:"./images/three.jpg", 
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec suscipit, nisi at consectetur convallis, orci velit vehicula dolor, at mattis lorem augue quis dolor. Nullam id dignissim eros, fringilla posuere nibh.',
-            postImg:'./images/two.png',userName:'Syed Fawad Hassan',postTime:'14h'}
-        ];
-        return fakeUserData;
+    const [state2, setState2] = useState( () => [{
+        "user_id": "",
+        "content_value": "",
+        "post_text":"",
+        "post_date": ""
+    }]);
+    
+        useEffect(
+            () =>{
+               // fetch('http://localhost:5004/showposts').then(response => response.json()).then(data => setState(data)).catch(err => console.log(err));
+
+               fetchDataFromApi();
+            }
+            
+        ,[]);
+        const validateFromApi = async (url = '', data = {}, reqMethod) =>{
+            return sendRequest(url,data,reqMethod);
+          }
+
+   const fetchDataFromApi =  () =>{
+
+      /*  let showPostRequest = new ShowPost_req();
+        showPostRequest.setUser_id(state2.user_id);
+        showPostRequest.setContent_value(state2.content_value);
+        showPostRequest.setPost_text(state2.post_text);
+        showPostRequest.setPost_date(state2.post_date);
+        console.log('show post request')
+        console.log(showPostRequest);
+        */
+        validateFromApi(`http://localhost:5004/showposts`,{} ,'GET').then(response => response.json()).then(data => {
+            console.log('Data Recieved from API to react---');
+            console.log(data);
+            if(data.status == '200'){
+                setState2(data.data);
+            }
+
+
+        }).catch(err => console.log(err));
+    
     }
 
-    const [state, setstate] = useState([{}])
-    useEffect(
-        () =>{
-
-            let data = fetchDataFromApi();
-            setstate(data);
-        }
-        ,[]
-    );
     
     return (
         <div className="show">
-            {state.map(post => (
-            <div key={post.id} className="post__container">
+            {state2.map(post => (
+            <div key={post.user_id} className="post__container">
             <div className="show__header">
                 <div className="show__header-img">
-                    <img src={post.userImg} />
+                    <img src={post.content_value} alt='mosque'/>
                 </div>
                 <div className="show__header-name">
-                    {post.userName}
-                    <div className='date'>{post.postTime}</div>
+                    {post.user_id}
+                    <div className='date'>{post.post_date}</div>
                 </div>
             </div>
             <div className="show__body">
                 <div className='show__body-text'>
-                    {post.text}
+                    {post.post_text}
                 </div>
                 <div className='show__body-img'>
-                    <img src={post.postImg}/>
+                    <img src={post.content_value}/>
                 </div>
             </div>
             <div className='show__reactions'>
@@ -75,7 +83,7 @@ function Showpost() {
             ))}
             
         </div>
-    )
+        )
 }
 
 export default Showpost

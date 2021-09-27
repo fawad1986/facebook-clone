@@ -47,7 +47,7 @@ function Create() {
                     
                 </div>
                 <div className="create__first-input">
-                    <input type='text'  className="create__first-inputs" placeholder="What's in your mind?" name="text" onChange={handleChange} ref={inputRef}/>
+                    <input type='text'  className="create__first-inputs" placeholder="What's in your mind?" name="text" value={obj.text} onChange={handleChange} ref={inputRef}/>
                 </div>
             </div>
             <div className="create__second">

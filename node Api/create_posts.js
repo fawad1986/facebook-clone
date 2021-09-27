@@ -23,7 +23,7 @@ db.connect(err => {
     console.log('SQL connected')
 })
 
-app.get('/timelineData' , (req, res) => {
+app.get('/CreateTimelineData' , (req, res) => {
     
 })
 

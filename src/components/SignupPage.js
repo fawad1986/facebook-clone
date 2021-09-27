@@ -8,8 +8,8 @@ function SignupPage(props) {
     const [stateObj, setStateObj] = useState({
         first_name:'',
         last_name:'',
-        Email:'',
-        Password:'',
+        email:'',
+        password:'',
         birthDay:'',
         birthMonth:'',
         birthYear:'',
@@ -23,8 +23,8 @@ function SignupPage(props) {
         let signUpRequest = new SignUpReq;
         signUpRequest.setFirstName(stateObj.first_name);
         signUpRequest.setLastName(stateObj.last_name);
-        signUpRequest.setEmail(stateObj.Email);
-        signUpRequest.setPassword(stateObj.Password);
+        signUpRequest.setEmail(stateObj.email);
+        signUpRequest.setPassword(stateObj.password);
         signUpRequest.setBirthDay(stateObj.birthDay);
         signUpRequest.setBirthMonth(stateObj.birthMonth);
         signUpRequest.setBirthYear(stateObj.birthYear);
@@ -73,8 +73,8 @@ const validateFromApi= async(url='', data='', reqMethod) => {
             <form onSubmit={handleSubmit}>
                 <input type='text' placeholder="First name" className="firstname" name="first_name" value={stateObj.first_name} onChange={handleChange}/>
                 <input type='text' placeholder="Surname" className="lastname" name="last_name" value={stateObj.last_name} onChange={handleChange}/>
-                <input type='text' placeholder="Mobile number or email address" name="Email" value={stateObj.Email} className="email-address" onChange={handleChange}/>
-                <input type='password' placeholder="New Password" className="email-address" name="Password" value={stateObj.Password} onChange={handleChange}/>
+                <input type='text' placeholder="Mobile number or email address" name="email" value={stateObj.email} className="email-address" onChange={handleChange}/>
+                <input type='password' placeholder="New Password" className="email-address" name="password" value={stateObj.password} onChange={handleChange}/>
 
                 <label className="date-of-birth">Date of Birth</label>
                 <select  aria-label="Day" name="birthDay" value={stateObj.birthDay} onChange={handleChange} id="day" title="Day" className="date-field"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24" selected="1">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select>

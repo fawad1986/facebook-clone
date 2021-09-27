@@ -6,8 +6,7 @@ import genericError from '../server/responses/errors/genericError';
 
 function LoginPage(props) {
     const [stateObj, setStateObj] = useState( {"Email":'',"Password":''} );
-    
-
+    const[ hasError, setHasError] = useState(false);
     function handleChange(e){
         setStateObj({...stateObj, [e.target.name] : e.target.value});
     }
@@ -52,6 +51,7 @@ function LoginPage(props) {
 
 
          }).catch(error => {
+             setHasError(true);
              console.log(error);
              //Code to display the error to user
             });
@@ -75,12 +75,12 @@ function LoginPage(props) {
     const validateFromApi = async (url = '', data = {}, reqMethod) =>{
       return sendRequest(url,data,reqMethod);
     }
-    
     return (
         <div className="login-page">
             <form className='login-container' onSubmit={handleSubmit}>
                 <input className="login-input" value={stateObj.Email} type="email" placeholder="Email Address or Phone Number"  name="Email" onChange={handleChange}/>
                 <input className="login-input" value={stateObj.Password} type='password' placeholder="Password" name="Password" onChange={handleChange}/>
+                {hasError === true && <p className = "error-msg">Email or Password Incorrect</p>}
                 <button className="login-btn">Log In</button>
                 <a href="#" className="login-a">Forgotten Password ?</a>
                 <div className="hr  "></div>

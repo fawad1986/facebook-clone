@@ -2,8 +2,8 @@ export default class SignUpReq{
     constructor(){
         this.first_name = '';
         this.last_name = '';
-        this.Email = '';
-        this.Password = '';
+        this.email = '';
+        this.password = '';
         this.birthDay = '';
         this.birthMonth ='';
         this.birthYear = '';
@@ -23,16 +23,16 @@ export default class SignUpReq{
         this.last_name = newLastName;
     }
     getEmail(){
-        return this.Email;
+        return this.email;
     }
     setEmail(newEmail){
-        this.Email = newEmail;
+        this.email = newEmail;
     }
     getPassword(){
-        return this.Password;
+        return this.password;
     }
     setPassword(newPassword){
-        this.Password = newPassword;
+        this.password = newPassword;
     }
     getBirthDay(){
         return this.birthDay;
