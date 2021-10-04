@@ -1,9 +1,11 @@
 import React,{useState,useEffect} from 'react';
 import { FaRegCommentAlt, FaRegThumbsUp, FaShareAlt } from 'react-icons/fa';
-import ShowPost_req from '../server/requests/showPostRequest';
 import sendRequest from '../util/requestFactory';
+import genericResponse from '../server/responses/genericResponse';
+import genericError from '../server/responses/errors/genericError';
+import SignInReq from '../server/requests/signInRequest';
 
-function Showpost() {
+function Showpost(props) {
 
     const [state2, setState2] = useState( () => [{
         "user_id": "",
@@ -14,8 +16,7 @@ function Showpost() {
     
         useEffect(
             () =>{
-               // fetch('http://localhost:5004/showposts').then(response => response.json()).then(data => setState(data)).catch(err => console.log(err));
-
+               
                fetchDataFromApi();
             }
             
@@ -24,23 +25,33 @@ function Showpost() {
             return sendRequest(url,data,reqMethod);
           }
 
+          let pState = props.parentState;
+          pState.email= props.parentState.Email;
+          let signInReq = new SignInReq();
+          signInReq.setEmail(pState.email);
+
+
    const fetchDataFromApi =  () =>{
-
-      /*  let showPostRequest = new ShowPost_req();
-        showPostRequest.setUser_id(state2.user_id);
-        showPostRequest.setContent_value(state2.content_value);
-        showPostRequest.setPost_text(state2.post_text);
-        showPostRequest.setPost_date(state2.post_date);
-        console.log('show post request')
-        console.log(showPostRequest);
-        */
-        validateFromApi(`http://localhost:5004/showposts`,{} ,'GET').then(response => response.json()).then(data => {
-            console.log('Data Recieved from API to react---');
-            console.log(data);
-            if(data.status == '200'){
-                setState2(data.data);
+        validateFromApi(`http://localhost:5004/showposts`,signInReq,'POST').then(response => response.json()).then(response => {
+            console.log(response);
+            if(response.status == '200'){
+                setState2(response.data);
+                let res = new genericResponse();
+                res.setStatus(response.status);
+                res.setData(response.data);
             }
-
+            if(response.status === '503'){
+                let error = new genericError();
+                error.setStatus(response.status);
+                error.setError(response.error);
+                throw error;
+            }
+            if(response.status === '404'){
+                let error = new genericError();
+                error.setStatus(response.error);
+                error.setError(response.error);
+                throw error;
+            }
 
         }).catch(err => console.log(err));
     
@@ -53,10 +64,10 @@ function Showpost() {
             <div key={post.user_id} className="post__container">
             <div className="show__header">
                 <div className="show__header-img">
-                    <img src={post.content_value} alt='mosque'/>
+                    <img src={post.profile_pic} alt='mosque'/>
                 </div>
                 <div className="show__header-name">
-                    {post.user_id}
+                    {post.first_name}
                     <div className='date'>{post.post_date}</div>
                 </div>
             </div>

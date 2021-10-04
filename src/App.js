@@ -36,7 +36,7 @@ function App() {
 
       case 'Main':
         return (
-        <Timeline />
+        <Timeline parentState = {stateObj}/>
         )
         break;
     }

@@ -454,3 +454,11 @@ border-radius: 10px;
   color: #ad0000;
   margin: 0 86px;
 }
+.pbutton{
+  background-color:transparent;
+  border:none;
+  cursor: pointer;
+}
+#toggle-form{
+  display: none;
+}
