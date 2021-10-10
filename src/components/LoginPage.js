@@ -3,9 +3,12 @@ import SignInReq from '../server/requests/signInRequest';
 import sendRequest from '../util/requestFactory';
 import genericResponse from '../server/responses/genericResponse';
 import genericError from '../server/responses/errors/genericError';
+import { connect } from 'react-redux';
+import actions from '../redux/actions/action'
+import {sendLoginRequest} from '../util/requestDispatcher'
 
 function LoginPage(props) {
-    const [stateObj, setStateObj] = useState( {"Email":'',"Password":''} );
+    const [stateObj, setStateObj] = useState( {"Email":'',"Password":'',"id":''} );
     const[ hasError, setHasError] = useState(false);
     function handleChange(e){
         setStateObj({...stateObj, [e.target.name] : e.target.value});
@@ -19,62 +22,22 @@ function LoginPage(props) {
         signInRequest.setEmail(stateObj.Email);
         signInRequest.setPassword (stateObj.Password);
         console.log(signInRequest);
-        validateFromApi(`http://localhost:5000/usersignin`,signInRequest,'POST').then(response =>response.json()
-        ).then(response =>{
-            console.log("--Recieved data from API");
-             console.log(response);
-             let error;
-             switch(response.status){
-                 case '503':
-                        //log the error
-                        error = new genericError();
-                        error.setStatus(response.status);
-                        error.setError(response.error);
-                     throw error;
-                case '404':
-                     error = new genericError();
-                        error.setStatus(response.status);
-                        error.setError(response.error);
-                    throw error;
-                case '200':
-                    let resp = new genericResponse();
-                    resp.setStatus(response.status);
-                    resp.setData(response.data);
-                    //Code for going to next widget
-                    let pState = props.parentState;
-                    pState.Email = stateObj.Email;
-                    pState.LoginStatus = 'Success';
-                    pState.Route = 'Main';
-                    props.parentCallback(pState);  
-                 break;
-             }
-
-
-         }).catch(error => {
-             setHasError(true);
-             console.log(error);
-             //Code to display the error to user
-            });
-
-            /*
-         if (signInRequest.Email === "example@example.com" && signInRequest.Password === "abc123"){
-            return true;
-        }
-        */
-
-        // todo
-        /*
-        let pState = props.parentState;
-        pState.Email = stateObj.Email;
-        pState.LoginStatus = 'Success';
-        pState.Route = 'Main';
-        props.parentCallback(pState);   */
-        return false;
+        //Came from redux
+        handleSendLogin(signInRequest);
+        //props.login(signInRequest);
+       
     }
 
-    const validateFromApi = async (url = '', data = {}, reqMethod) =>{
-      return sendRequest(url,data,reqMethod);
+    async function handleSendLogin(req){
+        let res = await sendLoginRequest(req);
+        // check if error object
+        let signInRes = {};
+        signInRes.UserName = stateObj.Email;
+        signInRes.id = res.data.id;
+        props.login(signInRes);
+
     }
+
     return (
         <div className="login-page">
             <form className='login-container' onSubmit={handleSubmit}>
@@ -90,5 +53,17 @@ function LoginPage(props) {
         </div>
     )
 }
+/*
+const mapStateToProps = (state, ownProps) => {
+    return {"Email":state.email,"Password":state.password , "id":state.id}
+  };
+  */
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      login : loginRequest => dispatch(actions.loginUser(loginRequest))
+    }
+  };
+  
+  export default connect(null, mapDispatchToProps)(LoginPage);
 
-export default LoginPage
+//export default LoginPage

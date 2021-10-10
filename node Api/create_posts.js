@@ -39,20 +39,18 @@ class DataService{
     }
     execute(sqlString)
     {
-        try{
              return new Promise((resolve, reject)=>{
                 this.DBCon.query(sqlString,  (error, results)=>{
                     if(error){
-                        return reject(error);
+                        throw new Error("an error came");
+
+                        //console.log("Error came" + error);
+                        //reject(error);
                     }
                     return resolve(results);
                 });
             });
-        }
-        catch(err){
-            throw err;
-        }
-
+        
 
     }
 
@@ -63,7 +61,7 @@ try{
 db = new DataService();
 }
 catch(err){
-console.log(err);
+console.log("Error:" + err);
 }
 
 
@@ -74,6 +72,7 @@ app.post('/CreateTimelineData' , (req, res) => {
     createPost.content_value = req.body.content_value;
     createPost.post_text = req.body.post_text;
     let sql = `SELECT user_id FROM posts, user_auth WHERE posts.user_id = user_auth.id AND user_auth.email = '${createPost.email}'`
+    try{
     db.execute(sql).then(resp => {
         if(resp.length>0){
             let user_id = resp[0].user_id;
@@ -83,10 +82,24 @@ app.post('/CreateTimelineData' , (req, res) => {
             let sql2 = `INSERT INTO posts (user_id,content_type, content_value,post_text,post_date) VALUES ('${user_id}','image','${createPost.content_value}', '${createPost.post_text}',CURDATE())`;
             db.execute(sql2).then(res => {
                 console.log(res)
-            })
+                // if this is reaching this point, then create success response
+            })/*.catch(ex => {
+                console.log("22Error came"+ex);
+            })*/
         }
+    }).catch(ex => {
+        console.log("11Error came"+ex);
     });
-    
+}
+catch(ex){
+    console.log("Error came:"+ex);
+    // Create an Error object and return it
+}
+        genericResponse.status='200';
+       // genericResponse.data = result;
+        res.status(200)
+        console.log(genericResponse);
+        res.send(genericResponse);
 })
 
 

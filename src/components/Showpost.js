@@ -26,7 +26,7 @@ function Showpost(props) {
           }
 
           let pState = props.parentState;
-          pState.email= props.parentState.Email;
+          pState.email= props.parentState.UserName;
           let signInReq = new SignInReq();
           signInReq.setEmail(pState.email);
 

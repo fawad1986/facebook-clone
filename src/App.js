@@ -2,13 +2,20 @@
 import './App.css';
 import LoginPage from './components/LoginPage';
 import SignupPage from './components/SignupPage';
-import React , { useState } from 'react';
+import React , { useState,useEffect } from 'react';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
+import { connect } from 'react-redux';
 
 import Timeline from './components/Timeline'
 
-function App() {
+function App(prop) {
 
-  const [stateObj, setStateObj] = useState( {"LoginStatus":'','UserName':'','Route':'/'} );
+  const [stateObj, setStateObj] = useState( {"LoginStatus":prop.LoginStatus,'UserName':prop.UserName,'Route':prop.Route} );
+  
+  useEffect(() => {
+    setStateObj({"LoginStatus":prop.LoginStatus,'UserName':prop.UserName,'Route':prop.Route});
+  },[prop.LoginStatus]);
 
   const changeGlobalState = (newState) =>{
     setStateObj({...newState});
@@ -16,10 +23,12 @@ function App() {
   }
 
   return (
+    
     <div className="App">
       {returnComponentBasedOnRoute(stateObj.Route)}
       
     </div> 
+    
   );
 
   function returnComponentBasedOnRoute(route){
@@ -44,6 +53,8 @@ function App() {
   }
 }
 
+const mapStateToProps = (state, ownProps) => {
+  return {"LoginStatus":(state ? state.App.LoginStatus : ''),'UserName':(state ? state.App.UserName : ''),'Route':(state ? state.App.Route : '/'), 'id':(state ? state.App.id : '')}
+};
 
-
-export default App;
+export default connect(mapStateToProps)(App);
