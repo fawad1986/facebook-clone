@@ -4,6 +4,9 @@ import sendRequest from '../util/requestFactory';
 import genericResponse from '../server/responses/genericResponse';
 import genericError from '../server/responses/errors/genericError';
 import SignInReq from '../server/requests/signInRequest';
+import { connect } from 'react-redux';
+import actions from '../redux/actions/action'
+import {sendShowPostRequest} from '../util/requestDispatcher'
 
 function Showpost(props) {
 
@@ -17,45 +20,50 @@ function Showpost(props) {
         useEffect(
             () =>{
                
-               fetchDataFromApi();
+                handleShowPost(showPostRequest);
             }
             
         ,[]);
-        const validateFromApi = async (url = '', data = {}, reqMethod) =>{
-            return sendRequest(url,data,reqMethod);
-          }
+        
 
           let pState = props.parentState;
           pState.email= props.parentState.UserName;
-          let signInReq = new SignInReq();
-          signInReq.setEmail(pState.email);
+          let showPostRequest = new SignInReq();
+          showPostRequest.setEmail(pState.UserName);
 
 
-   const fetchDataFromApi =  () =>{
-        validateFromApi(`http://localhost:5004/showposts`,signInReq,'POST').then(response => response.json()).then(response => {
-            console.log(response);
-            if(response.status == '200'){
-                setState2(response.data);
-                let res = new genericResponse();
-                res.setStatus(response.status);
-                res.setData(response.data);
-            }
-            if(response.status === '503'){
-                let error = new genericError();
-                error.setStatus(response.status);
-                error.setError(response.error);
-                throw error;
-            }
-            if(response.status === '404'){
-                let error = new genericError();
-                error.setStatus(response.error);
-                error.setError(response.error);
-                throw error;
-            }
+          async function handleShowPost(showPostRequest){
+            let res = await sendShowPostRequest(showPostRequest);
+           
+            
+        }
 
-        }).catch(err => console.log(err));
+
+//    const fetchDataFromApi =  () =>{
+//         validateFromApi(`http://localhost:5004/showposts`,signInReq,'POST').then(response => response.json()).then(response => {
+//             console.log(response);
+//             if(response.status == '200'){
+//                 setState2(response.data);
+//                 let res = new genericResponse();
+//                 res.setStatus(response.status);
+//                 res.setData(response.data);
+//             }
+//             if(response.status === '503'){
+//                 let error = new genericError();
+//                 error.setStatus(response.status);
+//                 error.setError(response.error);
+//                 throw error;
+//             }
+//             if(response.status === '404'){
+//                 let error = new genericError();
+//                 error.setStatus(response.error);
+//                 error.setError(response.error);
+//                 throw error;
+//             }
+
+//         }).catch(err => console.log(err));
     
-    }
+//     }
 
     
     return (
@@ -97,4 +105,18 @@ function Showpost(props) {
         )
 }
 
-export default Showpost
+
+
+const mapStateToProps = (state, ownProps) => {
+    return {"user_id": state.user_id,"content_value": state.content_value,"post_text":state.post_text,"post_date": state.post_date}
+  };
+  
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      showPost : showPostRequest => dispatch(actions.showPost(showPostRequest))
+    }
+  };
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(Showpost);
+
+//export default Showpost

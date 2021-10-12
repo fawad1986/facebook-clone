@@ -67,29 +67,30 @@ export function sendSignUpRequest(signUpRequest){
 
 }
 
-export function sendShowPostRequest(showPostRequest){
+export async function sendShowPostRequest(showPostRequest){
 
-    validateFromApi(`http://localhost:5004/showposts`,showPostRequest,'POST').then(response => response.json()).then(response => {
+    let response = await (await validateFromApi(`http://localhost:5004/showposts`,showPostRequest,'POST')).json();
             console.log(response);
-            if(response.status == '200'){
+            let error;
+            switch(response.status){
+                case '200':
                 let res = new genericResponse();
                 res.setStatus(response.status);
                 res.setData(response.data);
-            }
-            if(response.status === '503'){
-                let error = new genericError();
+                return res;
+                error = new genericError();
                 error.setStatus(response.status);
                 error.setError(response.error);
-                throw error;
-            }
-            if(response.status === '404'){
-                let error = new genericError();
+                return error;
+                
+                case'404':
+                error = new genericError();
                 error.setStatus(response.error);
                 error.setError(response.error);
-                throw error;
+                return error;
             }
 
-        }).catch(err => console.log(err));
+        
 }
 
 export function sendCreatePostRequest(createPostRequest){
