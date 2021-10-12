@@ -120,7 +120,7 @@ console.log(err);
 app.post('/showposts' , (req, res) => {
 
     let result_array = new Array();
-    signinRequest.email = req.body.UserName;
+    signinRequest.email = req.body.email;
 
     let sql = `SELECT profile_pic,first_name,user_id, content_value, post_text,post_date, email FROM posts , user_info, user_auth WHERE posts.user_id=user_info.id AND user_info.id=user_auth.id AND user_auth.email='${signinRequest.email}'`;
     try{
