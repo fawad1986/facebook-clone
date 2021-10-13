@@ -54,7 +54,7 @@ function Create(props) {
       }
 
       let pState = props.parentState;
-      pState.email = props.parentState.Email;
+      pState.email = props.parentState.UserName;
       let createPost = new creatPostRequest();
         createPost.setEmail(pState.email);
         createPost.setPostText(state.post_text);

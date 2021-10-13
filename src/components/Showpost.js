@@ -4,18 +4,15 @@ import sendRequest from '../util/requestFactory';
 import genericResponse from '../server/responses/genericResponse';
 import genericError from '../server/responses/errors/genericError';
 import SignInReq from '../server/requests/signInRequest';
+import ShowPostRequest from '../server/requests/showPostRequest';
 import { connect } from 'react-redux';
 import actions from '../redux/actions/action'
 import {sendShowPostRequest} from '../util/requestDispatcher'
 
+
 function Showpost(props) {
 
-    const [state2, setState2] = useState( () => [{
-        "user_id": "",
-        "content_value": "",
-        "post_text":"",
-        "post_date": ""
-    }]);
+    const [state2, setState2] = useState( () => props.posts);
     
         useEffect(
             () =>{
@@ -30,40 +27,25 @@ function Showpost(props) {
           pState.email= props.parentState.UserName;
           let showPostRequest = new SignInReq();
           showPostRequest.setEmail(pState.email);
-
+            
 
           async function handleShowPost(showPostRequest){
             let res = await sendShowPostRequest(showPostRequest);
+            
+           switch(res.status){
+               case '200':
+                   //setState2(res.data);
+                   props.showpost(res.data);
+                   setState2(res.data);
+           }
+        //handle others scenerios
+ 
+
            
             
         }
 
 
-//    const fetchDataFromApi =  () =>{
-//         validateFromApi(`http://localhost:5004/showposts`,signInReq,'POST').then(response => response.json()).then(response => {
-//             console.log(response);
-//             if(response.status == '200'){
-//                 setState2(response.data);
-//                 let res = new genericResponse();
-//                 res.setStatus(response.status);
-//                 res.setData(response.data);
-//             }
-//             if(response.status === '503'){
-//                 let error = new genericError();
-//                 error.setStatus(response.status);
-//                 error.setError(response.error);
-//                 throw error;
-//             }
-//             if(response.status === '404'){
-//                 let error = new genericError();
-//                 error.setStatus(response.error);
-//                 error.setError(response.error);
-//                 throw error;
-//             }
-
-//         }).catch(err => console.log(err));
-    
-//     }
 
     
     return (
@@ -107,13 +89,20 @@ function Showpost(props) {
 
 
 
-const mapStateToProps = (state, ownProps) => {
-    return {"user_id": state.user_id,"content_value": state.content_value,"post_text":state.post_text,"post_date": state.post_date}
+const mapStateToProps = (state) => {
+    return {posts : (state.ShowPosts ? state.ShowPosts : [{
+        "user_id": "",
+        "content_value": "",
+        "post_text":"",
+        "post_date": ""
+    }])
   };
+}
   
   const mapDispatchToProps = (dispatch) => {
     return {
-      showPost : showPostRequest => dispatch(actions.showPost(showPostRequest))
+
+      showpost : showRequest => dispatch(actions.showPost(showRequest))
     }
   };
   

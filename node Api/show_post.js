@@ -63,57 +63,6 @@ console.log(err);
 
 
 
-// app.post('/showposts' , (req, res) => {
-
-//     let result_array = new Array();
-//     signinRequest.email = req.body.email;
-
-//     let sql = `SELECT profile_pic,first_name,user_id, content_value, post_text,post_date, email FROM posts , user_info, user_auth WHERE posts.user_id=user_info.id AND user_info.id=user_auth.id AND user_auth.email='${signinRequest.email}'`;
-//     try{
-//     db.execute(sql).then(resp =>{
-//         if(resp.length>0){
-//         let user_id = resp[0].user_id;
-//         result_array = result_array.concat(resp);
-//         console.log(resp);
-//         // next query
-//         let sql2 = `SELECT user2_id FROM friends,user_info WHERE friends.user1_id=user_info.id AND user_info.id ='${user_id}' `;
-//             db.execute(sql2).then(
-//                 resp => {
-//                     if(resp.length >0){
-//                         let promiseArray = new Array();
-//                         resp.map (
-//                             item => {
-//                                 let sql3 = `SELECT profile_pic,first_name,user_id, content_value, post_text,post_date, email FROM posts , user_info, user_auth WHERE posts.user_id=user_info.id AND user_info.id=user_auth.id AND user_auth.id='${item.user2_id}'`;
-//                                 promiseArray.push( db.execute(sql3));
-//                             }
-//                             );
-//                             Promise.all(promiseArray).then(
-//                                 result_arr => {
-//                                     result_arr.map(item => result_array = result_array.concat(item));
-//                                     genericResponse.status= '200';
-//                                     genericResponse.data= result_array;
-//                                     console.log(genericResponse);
-//                                     res.send(genericResponse);
-//                                 }
-//                         )
-
-//                     }
-
-//                 }
-//             );
-//         }
-
-
-        
-//     });
-
-//     }
-//     catch(err){
-//         console.log(err);
-//     }
-
-
-// })
 
 
 
@@ -151,6 +100,35 @@ app.post('/showposts' , (req, res) => {
     }
 })
 
+
+// app.post('/showposts' , (req, res) => {
+
+//     let result_array = new Array();
+//     signinRequest.id = req.body.id;
+
+//     let sql = `SELECT profile_pic,first_name,user_id, content_value, post_text,post_date, email FROM posts , user_info, user_auth WHERE posts.user_id=user_info.id AND user_info.id=user_auth.id AND user_auth.id= '${signinRequest.id }' UNION SELECT profile_pic,first_name,user_id, content_value, post_text,post_date, email FROM posts , user_info, user_auth WHERE posts.user_id=user_info.id AND user_info.id=user_auth.id AND user_auth.id IN (SELECT user2_id FROM friends,user_info WHERE friends.user1_id=user_info.id AND user_info.id ='${signinRequest.id }')`;
+//     try{
+//     db.execute(sql).then(resp =>{
+        
+        
+//         result_array = result_array.concat(resp);
+//         console.log(resp);
+//         // next query             
+//                     // result_array = result_array.concat( result_arr);
+//                     genericResponse.status= '200';
+//                     genericResponse.data= result_array;
+//                     console.log(result_array)
+//                     console.log(genericResponse);
+//                     res.send(genericResponse);
+                                           
+               
+//     });
+
+//     }
+//     catch(err){
+//         console.log(err);
+//     }
+// })
 
 
 

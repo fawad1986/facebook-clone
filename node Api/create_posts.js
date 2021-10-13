@@ -64,15 +64,12 @@ catch(err){
 console.log("Error:" + err);
 }
 
-
-
 app.post('/CreateTimelineData' , (req, res) => {
     let result_array = new Array();
     createPost.email = req.body.email;
     createPost.content_value = req.body.content_value;
     createPost.post_text = req.body.post_text;
     let sql = `SELECT user_id FROM posts, user_auth WHERE posts.user_id = user_auth.id AND user_auth.email = '${createPost.email}'`
-    try{
     db.execute(sql).then(resp => {
         if(resp.length>0){
             let user_id = resp[0].user_id;
@@ -82,25 +79,48 @@ app.post('/CreateTimelineData' , (req, res) => {
             let sql2 = `INSERT INTO posts (user_id,content_type, content_value,post_text,post_date) VALUES ('${user_id}','image','${createPost.content_value}', '${createPost.post_text}',CURDATE())`;
             db.execute(sql2).then(res => {
                 console.log(res)
-                // if this is reaching this point, then create success response
-            })/*.catch(ex => {
-                console.log("22Error came"+ex);
-            })*/
+            })
         }
-    }).catch(ex => {
-        console.log("11Error came"+ex);
     });
-}
-catch(ex){
-    console.log("Error came:"+ex);
-    // Create an Error object and return it
-}
-        genericResponse.status='200';
-       // genericResponse.data = result;
-        res.status(200)
-        console.log(genericResponse);
-        res.send(genericResponse);
+
 })
+
+
+// app.post('/CreateTimelineData' , (req, res) => {
+//     let result_array = new Array();
+//     createPost.email = req.body.email;
+//     createPost.content_value = req.body.content_value;
+//     createPost.post_text = req.body.post_text;
+//     let sql = `SELECT user_id FROM posts, user_auth WHERE posts.user_id = user_auth.id AND user_auth.email = '${createPost.email}'`
+//     try{
+//     db.execute(sql).then(resp => {
+//         if(resp.length>0){
+//             let user_id = resp[0].user_id;
+//             result_array = result_array.concat(resp);
+//             console.log(resp);
+//             // now we run the query to create post as we got our user_id
+//             let sql2 = `INSERT INTO posts (user_id,content_type, content_value,post_text,post_date) VALUES ('${user_id}','image','${createPost.content_value}', '${createPost.post_text}',CURDATE())`;
+//             db.execute(sql2).then(res => {
+//                 console.log(res)
+//                 // if this is reaching this point, then create success response
+//             })/*.catch(ex => {
+//                 console.log("22Error came"+ex);
+//             })*/
+//         }
+//     }).catch(ex => {
+//         console.log("11Error came"+ex);
+//     });
+// }
+// catch(ex){
+//     console.log("Error came:"+ex);
+//     // Create an Error object and return it
+// }
+//         genericResponse.status='200';
+//        // genericResponse.data = result;
+//         res.status(200)
+//         console.log(genericResponse);
+//         res.send(genericResponse);
+// })
 
 
 

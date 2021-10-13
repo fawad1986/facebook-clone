@@ -1,12 +1,28 @@
 import * as constants from '../actionConstants.js'
 import {sendLoginRequest} from '../../util/requestDispatcher'
 
+/*
+import { combineReducers } from 'redux';
+import loginReducer from './loginReducer.js';
+import showPostReducer from './showPostReducer.js';
+const rootReducer = combineReducers({
+  login:loginReducer ,
+  showPost:showPostReducer
+})
+*/
+
+
 const initialState ={
   App: {"LoginStatus":'','UserName':'','Route':'/',"id":''},
-  ShowPosts:{"user_id": "","content_value": "","post_text":"","post_date": ""}
+  ShowPosts:[{
+    "user_id": "",
+    "content_value": "",
+    "post_text":"",
+    "post_date": ""
+}]
 }
 
-let reducer = (state = initialState , action) => {
+let rootReducer = (state = initialState , action) => {
     switch (action.type) {
     case constants.LoginAction:
         return {...state,App:{...action.payload}}
@@ -17,5 +33,5 @@ let reducer = (state = initialState , action) => {
         return state;
     }
   }
-  export default reducer;
+  export default rootReducer;
 

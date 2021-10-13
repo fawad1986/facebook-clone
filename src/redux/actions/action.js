@@ -17,10 +17,7 @@ let actions = {
         return {
             type: constants.ShowPostAction,
             payload:{
-                user_id: showRequest.user_id,
-                content_value: showRequest.content_value,
-                post_text:showRequest.post_text,
-                post_date: showRequest.post_date
+                ...showRequest
             }
         }
     }

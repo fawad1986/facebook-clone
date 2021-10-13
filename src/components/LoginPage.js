@@ -6,6 +6,7 @@ import genericError from '../server/responses/errors/genericError';
 import { connect } from 'react-redux';
 import actions from '../redux/actions/action'
 import {sendLoginRequest} from '../util/requestDispatcher'
+import rootReducer from '../redux/reducers/rootReducer';
 
 function LoginPage(props) {
     const [stateObj, setStateObj] = useState( {"Email":'',"Password":'',"id":''} );
