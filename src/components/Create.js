@@ -1,9 +1,9 @@
 import React,{useState,useRef} from 'react'
 import {FaRegFileImage, FaRegGrinAlt, FaVideo} from 'react-icons/fa';
-import sendRequest from '../util/requestFactory';
-import genericResponse from '../server/responses/genericResponse';
-import genericError from '../server/responses/errors/genericError';
 import creatPostRequest from '../server/requests/createPostRequest';
+import { connect } from 'react-redux';
+import actions from '../redux/actions/action';
+import {sendCreatePostRequest} from '../util/requestDispatcher';
 
 function Create(props) {
     // let obj = {
@@ -11,10 +11,7 @@ function Create(props) {
     //     "content_value":''
     // };
     const inputRef = useRef(null);
-    const [state,setState] = useState({
-        "post_text":'',
-        "content_value":''
-    });
+    const [state,setState] = useState(() => props.createPosts);
    
     const toggleForm=()=> {
         let toggle = document.getElementById('toggle-form');
@@ -46,13 +43,10 @@ function Create(props) {
     }
 
     function handleSubmit(e){
-        postDataToApi(state);
+        handleCreatePostRequest(createPost);
         inputRef.current.value='';
     }
-    const validateFromApi = async (url = '', data = {}, reqMethod) =>{
-        return sendRequest(url,data,reqMethod);
-      }
-
+    
       let pState = props.parentState;
       pState.email = props.parentState.UserName;
       let createPost = new creatPostRequest();
@@ -61,32 +55,16 @@ function Create(props) {
         createPost.setContentValue(state.content_value)
 
 
-    function postDataToApi(data){
-        //Implement APi Call here
-        validateFromApi(`http://localhost:5005/CreateTimelineData`,createPost,'POST').then(response => response.json()).then(response => {
-            console.log(response);
-            if(response.status === '200'){
-                setState(response.data);
-                let res = new genericResponse();
-                res.setStatus(response.status);
-                res.setData(response.data);
-            }
-            if(response.status === '503'){
-                let error = new genericError();
-                error.setStatus(response.status);
-                error.setError(response.error);
-                throw error;
-            }
-            if(response.status === '404'){
-                let error = new genericError();
-                error.setStatus(response.error);
-                error.setError(response.error);
-                throw error;
-            }
-
-        }).catch(err => console.log(err));
-    
-
+    async function handleCreatePostRequest(createpost){
+        let response =  await sendCreatePostRequest(createpost);
+        console.log(response)
+            // let createReq = {};
+            // createReq.post_text = state.post_text
+            // createReq.content_value = state.content_value
+        
+                props.createpost(createPost);
+               
+        
     }
 
     return (
@@ -121,4 +99,21 @@ function Create(props) {
     )
 }
 
-export default Create
+const mapStateToProps = (state) => {
+    return {createPosts : (state.CreatePosts ? state.CreatePosts : {
+        "content_value": "",
+        "post_text":""        
+    })
+  };
+}
+  
+  const mapDispatchToProps = (dispatch) => {
+    return {
+
+      createpost : create => dispatch(actions.createPost(create))
+    }
+  };
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(Create);
+
+//export default Create

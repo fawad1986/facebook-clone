@@ -79,6 +79,11 @@ app.post('/CreateTimelineData' , (req, res) => {
             let sql2 = `INSERT INTO posts (user_id,content_type, content_value,post_text,post_date) VALUES ('${user_id}','image','${createPost.content_value}', '${createPost.post_text}',CURDATE())`;
             db.execute(sql2).then(res => {
                 console.log(res)
+                genericResponse.status='200';
+            // genericResponse.data = result;
+                res.status(200)
+                console.log(genericResponse);
+                res.send(genericResponse);
             })
         }
     });

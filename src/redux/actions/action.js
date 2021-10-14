@@ -20,6 +20,15 @@ let actions = {
                 ...showRequest
             }
         }
+    },
+    createPost : function(create){
+        return {
+            type: constants.CreatePostAction,
+            payload: {
+                content_value: create.content_value,
+                post_text: create.post_text
+            }
+        }
     }
 
 }
