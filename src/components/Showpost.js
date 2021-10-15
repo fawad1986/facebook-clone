@@ -8,12 +8,14 @@ import ShowPostRequest from '../server/requests/showPostRequest';
 import { connect } from 'react-redux';
 import actions from '../redux/actions/action'
 import {sendShowPostRequest} from '../util/requestDispatcher'
+import { useSelector,useDispatch } from 'react-redux'
 
 
 function Showpost(props) {
 
     const [state2, setState2] = useState( () => props.posts);
-    
+    // const content_value = useSelector(state => state.CreatePosts.content_value);
+    // const dispatch = useDispatch()
         useEffect(
             () =>{
                
@@ -37,6 +39,7 @@ function Showpost(props) {
                    //setState2(res.data);
                    props.showpost(res.data);
                    setState2(res.data);
+               // dispatch(actions.createPost)
            }
         //handle others scenerios
  

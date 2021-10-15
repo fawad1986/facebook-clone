@@ -61,8 +61,13 @@ function Create(props) {
             // let createReq = {};
             // createReq.post_text = state.post_text
             // createReq.content_value = state.content_value
-        
-                props.createpost(createPost);
+            switch(response.status){
+                case '200':
+                    //setState2(res.data);
+                    props.createpost(response.data)
+                    setState(response.data);
+            }
+                
                
         
     }

@@ -39,18 +39,19 @@ class DataService{
     }
     execute(sqlString)
     {
-             return new Promise((resolve, reject)=>{
-                this.DBCon.query(sqlString,  (error, results)=>{
-                    if(error){
-                        throw new Error("an error came");
-
-                        //console.log("Error came" + error);
-                        //reject(error);
-                    }
-                    return resolve(results);
-                });
-            });
-        
+        try{
+            return new Promise((resolve, reject)=>{
+               this.DBCon.query(sqlString,  (error, results)=>{
+                   if(error){
+                       return reject(error);
+                   }
+                   return resolve(results);
+               });
+           });
+       }
+       catch(err){
+           throw err;
+       }
 
     }
 
@@ -77,11 +78,11 @@ app.post('/CreateTimelineData' , (req, res) => {
             console.log(resp);
             // now we run the query to create post as we got our user_id
             let sql2 = `INSERT INTO posts (user_id,content_type, content_value,post_text,post_date) VALUES ('${user_id}','image','${createPost.content_value}', '${createPost.post_text}',CURDATE())`;
-            db.execute(sql2).then(res => {
-                console.log(res)
+            db.execute(sql2).then(result => {
+                console.log(result);
                 genericResponse.status='200';
-            // genericResponse.data = result;
-                res.status(200)
+                genericResponse.data = result_array;
+                res.status(200);
                 console.log(genericResponse);
                 res.send(genericResponse);
             })
