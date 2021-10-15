@@ -25,8 +25,7 @@ let actions = {
         return {
             type: constants.CreatePostAction,
             payload: {
-                content_value: create.content_value,
-                post_text: create.post_text
+                ...create
             }
         }
     }

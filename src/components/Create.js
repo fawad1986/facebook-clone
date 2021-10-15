@@ -58,14 +58,14 @@ function Create(props) {
     async function handleCreatePostRequest(createpost){
         let response =  await sendCreatePostRequest(createpost);
         console.log(response)
-            // let createReq = {};
-            // createReq.post_text = state.post_text
-            // createReq.content_value = state.content_value
+            let createReq = {};
+            createReq.post_text = state.post_text
+            createReq.content_value = state.content_value
             switch(response.status){
                 case '200':
                     //setState2(res.data);
-                    props.createpost(response.data)
-                    setState(response.data);
+                    props.createpost(createReq)
+                    setState(createReq);
             }
                 
                
@@ -105,10 +105,10 @@ function Create(props) {
 }
 
 const mapStateToProps = (state) => {
-    return {createPosts : (state.CreatePosts ? state.CreatePosts : {
+    return {createPosts : (state.CreatePosts ? state.CreatePosts :[{
         "content_value": "",
         "post_text":""        
-    })
+    }])
   };
 }
   

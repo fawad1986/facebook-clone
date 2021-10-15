@@ -20,7 +20,7 @@ const initialState ={
     "post_text":"",
     "post_date": ""
 }],
-CreatePosts:{"post_text":'',"content_value":''}
+CreatePosts:[{"post_text":'',"content_value":''}]
 }
 
 let rootReducer = (state = initialState , action) => {

@@ -14,15 +14,15 @@ import { useSelector,useDispatch } from 'react-redux'
 function Showpost(props) {
 
     const [state2, setState2] = useState( () => props.posts);
-    // const content_value = useSelector(state => state.CreatePosts.content_value);
-    // const dispatch = useDispatch()
+     const content_value = useSelector(state => state.CreatePosts.content_value);
+     const dispatch = useDispatch()
         useEffect(
             () =>{
                
                 handleShowPost(showPostRequest);
             }
             
-        ,[]);
+        ,[content_value]);
         
 
           let pState = props.parentState;
@@ -39,7 +39,7 @@ function Showpost(props) {
                    //setState2(res.data);
                    props.showpost(res.data);
                    setState2(res.data);
-               // dispatch(actions.createPost)
+                dispatch({type: 'Create_Post'})
            }
         //handle others scenerios
  

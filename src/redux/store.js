@@ -11,7 +11,7 @@ let initialState =
 {
   App: {"LoginStatus":'','UserName':'','Route':'/',"id":''},
   ShowPosts:[{"user_id": "","content_value": "","post_text":"","post_date": ""}],
-  CreatePosts:{"post_text":'',"content_value":''}
+  CreatePosts:[{"post_text":'',"content_value":''}]
 
 };
 
