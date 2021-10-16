@@ -1,12 +1,9 @@
 import React , { useState} from 'react';
 import SignInReq from '../server/requests/signInRequest';
-import sendRequest from '../util/requestFactory';
-import genericResponse from '../server/responses/genericResponse';
-import genericError from '../server/responses/errors/genericError';
 import { connect } from 'react-redux';
 import actions from '../redux/actions/action'
 import {sendLoginRequest} from '../util/requestDispatcher'
-import rootReducer from '../redux/reducers/rootReducer';
+
 
 function LoginPage(props) {
     const [stateObj, setStateObj] = useState( {"Email":'',"Password":'',"id":''} );

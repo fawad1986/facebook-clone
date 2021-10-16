@@ -101,37 +101,6 @@ app.post('/showposts' , (req, res) => {
 })
 
 
-// app.post('/showposts' , (req, res) => {
-
-//     let result_array = new Array();
-//     signinRequest.id = req.body.id;
-
-//     let sql = `SELECT profile_pic,first_name,user_id, content_value, post_text,post_date, email FROM posts , user_info, user_auth WHERE posts.user_id=user_info.id AND user_info.id=user_auth.id AND user_auth.id= '${signinRequest.id }' UNION SELECT profile_pic,first_name,user_id, content_value, post_text,post_date, email FROM posts , user_info, user_auth WHERE posts.user_id=user_info.id AND user_info.id=user_auth.id AND user_auth.id IN (SELECT user2_id FROM friends,user_info WHERE friends.user1_id=user_info.id AND user_info.id ='${signinRequest.id }')`;
-//     try{
-//     db.execute(sql).then(resp =>{
-        
-        
-//         result_array = result_array.concat(resp);
-//         console.log(resp);
-//         // next query             
-//                     // result_array = result_array.concat( result_arr);
-//                     genericResponse.status= '200';
-//                     genericResponse.data= result_array;
-//                     console.log(result_array)
-//                     console.log(genericResponse);
-//                     res.send(genericResponse);
-                                           
-               
-//     });
-
-//     }
-//     catch(err){
-//         console.log(err);
-//     }
-// })
-
-
-
 
 app.listen(PORT, () => {
     console.log(`server listening at port:${PORT}`)

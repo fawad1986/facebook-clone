@@ -1,15 +1,5 @@
 import * as constants from '../actionConstants.js'
-import {sendLoginRequest} from '../../util/requestDispatcher'
 
-/*
-import { combineReducers } from 'redux';
-import loginReducer from './loginReducer.js';
-import showPostReducer from './showPostReducer.js';
-const rootReducer = combineReducers({
-  login:loginReducer ,
-  showPost:showPostReducer
-})
-*/
 
 
 const initialState ={
