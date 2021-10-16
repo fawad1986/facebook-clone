@@ -16,17 +16,9 @@ let actions = {
     showPost : function(showRequest){
         return {
             type: constants.ShowPostAction,
-            payload:{
+            payload:[
                 ...showRequest
-            }
-        }
-    },
-    createPost : function(create){
-        return {
-            type: constants.CreatePostAction,
-            payload: {
-                ...create
-            }
+        ]
         }
     }
 

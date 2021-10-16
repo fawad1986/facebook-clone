@@ -45,7 +45,7 @@ function App(prop) {
 
       case 'Main':
         return (
-        <Timeline parentState = {stateObj}/>
+        <Timeline/>
         )
         break;
     }

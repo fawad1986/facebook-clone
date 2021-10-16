@@ -4,14 +4,13 @@ import creatPostRequest from '../server/requests/createPostRequest';
 import { connect } from 'react-redux';
 import actions from '../redux/actions/action';
 import {sendCreatePostRequest} from '../util/requestDispatcher';
+import SignInReq from '../server/requests/signInRequest';
+import {sendShowPostRequest} from '../util/requestDispatcher'
 
 function Create(props) {
-    // let obj = {
-    //     "post_text":'',
-    //     "content_value":''
-    // };
+
     const inputRef = useRef(null);
-    const [state,setState] = useState(() => props.createPosts);
+    const [state,setState] = useState({email:'',post_text:'',content_value:'',type:''});
    
     const toggleForm=()=> {
         let toggle = document.getElementById('toggle-form');
@@ -46,26 +45,28 @@ function Create(props) {
         handleCreatePostRequest(createPost);
         inputRef.current.value='';
     }
-    
-      let pState = props.parentState;
-      pState.email = props.parentState.UserName;
+
       let createPost = new creatPostRequest();
-        createPost.setEmail(pState.email);
+        createPost.setEmail(props.email);
         createPost.setPostText(state.post_text);
         createPost.setContentValue(state.content_value)
+        
+        let showPostRequest = new SignInReq();
+        showPostRequest.setEmail(props.email);
 
 
     async function handleCreatePostRequest(createpost){
         let response =  await sendCreatePostRequest(createpost);
+        let resFromShowPost = await sendShowPostRequest(showPostRequest);
         console.log(response)
             let createReq = {};
             createReq.post_text = state.post_text
             createReq.content_value = state.content_value
             switch(response.status){
                 case '200':
-                    //setState2(res.data);
-                    props.createpost(createReq)
-                    setState(createReq);
+                    props.showpost(resFromShowPost.data);
+                    setState({email:'',post_text:'',content_value:'',type:''});
+                    //To Do : clear frm values
             }
                 
                
@@ -105,17 +106,14 @@ function Create(props) {
 }
 
 const mapStateToProps = (state) => {
-    return {createPosts : (state.CreatePosts ? state.CreatePosts :[{
-        "content_value": "",
-        "post_text":""        
-    }])
+    return {email : (state.App.UserName ? state.App.UserName : '')
   };
 }
   
   const mapDispatchToProps = (dispatch) => {
     return {
 
-      createpost : create => dispatch(actions.createPost(create))
+    showpost : showRequest => dispatch(actions.showPost(showRequest))
     }
   };
   

@@ -28,9 +28,7 @@ let rootReducer = (state = initialState , action) => {
     case constants.LoginAction:
         return {...state,App:{...action.payload}}
     case constants.ShowPostAction:
-      return {...state,ShowPosts:{...action.payload}}
-    case constants.CreatePostAction:
-      return {...state,CreatePosts:{...action.payload} }
+      return {...state,ShowPosts:[...action.payload]}
     default:
         return state;
     }

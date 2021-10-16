@@ -7,8 +7,8 @@ function Posts(props) {
     return (
         <div className="posts">
             <Stories/>
-            <Create parentState = {props.parentState} />
-            <Showpost parentState = {props.parentState}/>
+            <Create/>
+            <Showpost/>
         </div>
     )
 }

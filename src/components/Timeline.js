@@ -39,7 +39,7 @@ function Timeline(props) {
       <div className="facebook">
         <Sidebar data={UserData.sideBar}/>
       </div>
-      <Posts parentState ={props.parentState}/>
+      <Posts/>
       <ChatBar />
         </div>
     )

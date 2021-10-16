@@ -13,22 +13,36 @@ import { useSelector,useDispatch } from 'react-redux'
 
 function Showpost(props) {
 
-    const [state2, setState2] = useState( () => props.posts);
-     const content_value = useSelector(state => state.CreatePosts.content_value);
-     const dispatch = useDispatch()
+    const [state2, setState2] = useState({posts: [{
+        "user_id": "",
+        "content_value": "",
+        "post_text":"",
+        "post_date": ""
+    }]});
+
+
+     //const dispatch = useDispatch()
         useEffect(
             () =>{
                
                 handleShowPost(showPostRequest);
             }
             
-        ,[content_value]);
-        
+        ,[]);
 
-          let pState = props.parentState;
-          pState.email= props.parentState.UserName;
+/*
+        useEffect(
+            () =>{
+               console.log("*** Tada props changed ***");
+
+                setState2({ posts:props.posts});
+            }
+            
+        ,[props.posts.length]);
+        */
+
           let showPostRequest = new SignInReq();
-          showPostRequest.setEmail(pState.email);
+          showPostRequest.setEmail(props.email);
             
 
           async function handleShowPost(showPostRequest){
@@ -38,8 +52,8 @@ function Showpost(props) {
                case '200':
                    //setState2(res.data);
                    props.showpost(res.data);
-                   setState2(res.data);
-                dispatch({type: 'Create_Post'})
+                   setState2({ posts:res.data});
+              //  dispatch({type: 'Create_Post'})
            }
         //handle others scenerios
  
@@ -48,12 +62,13 @@ function Showpost(props) {
             
         }
 
-
-
-    
+        console.log("** current props ***");
+        console.log(props);
+        console.log("props logic");
+    console.log(props.posts.length>0);
     return (
         <div className="show">
-            {state2.map(post => (
+            { props.posts.length>0 && props.posts.map(post => (
             <div key={post.user_id} className="post__container">
             <div className="show__header">
                 <div className="show__header-img">
@@ -93,7 +108,7 @@ function Showpost(props) {
 
 
 const mapStateToProps = (state) => {
-    return {posts : (state.ShowPosts ? state.ShowPosts : [{
+    return {email : (state.App.UserName ? state.App.UserName : ''),posts : (state.ShowPosts ? state.ShowPosts : [{
         "user_id": "",
         "content_value": "",
         "post_text":"",
