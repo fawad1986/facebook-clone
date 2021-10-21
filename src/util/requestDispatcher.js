@@ -119,3 +119,83 @@ export async function sendCreatePostRequest(createPostRequest){
 
         
 }
+
+export async function sendUserProfileRequest(profileRequestObject){
+
+    let response =  await (await validateFromApi(`http://localhost:5006/userProfile`,profileRequestObject,'POST')).json();
+             console.log("--Recieved data from API");
+              console.log(response);
+              let error;
+              // eslint-disable-next-line default-case
+              switch(response.status){
+                  case '503':
+                     error = new genericError();
+                     error.setStatus(response.status);
+                     error.setError(response.error);
+                     return error;
+                 case '404':
+                     error = new genericError();
+                     error.setStatus(response.status);
+                     error.setError(response.error);
+                     return error;
+                 case '200':
+                     let resp = new genericResponse();
+                     resp.setStatus(response.status);
+                     resp.setData(response.data);
+                     return resp;
+              }
+              
+ }
+ export async function seachFriendRequest(searchRequestObject){
+
+    let response =  await (await validateFromApi(`http://localhost:5007/searchFriend`,searchRequestObject,'POST')).json();
+             console.log("--Recieved data from API");
+              console.log(response);
+              let error;
+              // eslint-disable-next-line default-case
+              switch(response.status){
+                  case '503':
+                     error = new genericError();
+                     error.setStatus(response.status);
+                     error.setError(response.error);
+                     return error;
+                 case '404':
+                     error = new genericError();
+                     error.setStatus(response.status);
+                     error.setError(response.error);
+                     return error;
+                 case '200':
+                     let resp = new genericResponse();
+                     resp.setStatus(response.status);
+                     resp.setData(response.data);
+                     return resp;
+              }
+              
+ }
+
+ export async function addFriendRequest(idReq){
+
+    let response =  await (await validateFromApi(`http://localhost:5008/addFriend`,idReq,'POST')).json();
+             console.log("--Recieved data from API");
+              console.log(response);
+              let error;
+              // eslint-disable-next-line default-case
+              switch(response.status){
+                  case '503':
+                     error = new genericError();
+                     error.setStatus(response.status);
+                     error.setError(response.error);
+                     return error;
+                 case '404':
+                     error = new genericError();
+                     error.setStatus(response.status);
+                     error.setError(response.error);
+                     return error;
+                 case '200':
+                     let resp = new genericResponse();
+                     resp.setStatus(response.status);
+                     resp.setData(response.data);
+                     return resp;
+              }
+              
+ }

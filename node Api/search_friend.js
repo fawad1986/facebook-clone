@@ -6,7 +6,7 @@ const express = require ('express');
 const mysql = require('mysql')
 const app = express();
 const cors = require('cors');
-const PORT = 5006;
+const PORT = 5007;
 app.use(express.json());
 app.use(cors());
 
@@ -66,27 +66,25 @@ console.log(err);
 
 
 
-app.post('/searchFriends' , (req, res) => {
+app.post('/searchFriend' , (req, res) => {
 
+    signinRequest.first_name = req.body.first_name;
     let result_array = new Array();
-    signinRequest.email = req.body.email;
-
-    let sql = `SELECT profile_pic,first_name,user_id, content_value, post_text,post_date, email FROM posts , user_info, user_auth WHERE posts.user_id=user_info.id AND user_info.id=user_auth.id AND user_auth.email='${signinRequest.email}'`;
+    let sql = `SELECT id,first_name, profile_pic FROM user_info WHERE first_name = '${signinRequest.first_name}'`;
     try{
-    // db.execute(sql).then(resp =>{
-    //     if(resp.length>0){
-    //     let user_id = resp[0].user_id;
-    //     result_array = result_array.concat(resp);
-    //     console.log(resp);
-                  
-    //         result_array = result_array.concat( result_arr);
-    //         genericResponse.status= '200';
-    //         genericResponse.data= result_array;
-    //         console.log(genericResponse);
-    //         res.send(genericResponse);
+    db.execute(sql).then(resp =>{
+        if(resp.length>0){
+        result_array = result_array.concat(resp);
+        console.log(resp);
+                        
+        
+            genericResponse.status= '200';
+            genericResponse.data= result_array;
+            console.log(genericResponse);
+            res.send(genericResponse);
                                            
-    //     }        
-    // });
+        }        
+    });
 
     }
     catch(err){

@@ -176,6 +176,37 @@
   font-size: 22px;
   color: silver;
 }
+.navabr__searchbutton{
+  position: absolute;
+  left: 225px;
+  top: 9px;
+  font-size: 22px;
+  color: silver;
+  border: none;
+}
+.searchResult{
+  width: 100%;
+  height: auto;
+  padding: 15px 45px;
+  border: none;
+  background-color: #fff;
+  
+}
+.searchName{
+  position: absolute;
+    left: 84px;
+}
+.addFriendButton{
+  cursor:pointer;
+}
+#profile-toggle{
+  display: none;
+  position: absolute;
+  top:70px;
+}
+.plus-button{
+  border:none;
+}
 .navbar__middle{
   width: 50%;
   display: flex;
@@ -461,4 +492,12 @@ border-radius: 10px;
 }
 #toggle-form{
   display: none;
+}
+.main-profile{
+  height: auto;
+  width:250px;
+  background-color: #fff;
+  display: flex;
+  top: 0px;
+  position: relative;
 }

@@ -66,27 +66,25 @@ console.log(err);
 
 
 
-app.post('/searchFriends' , (req, res) => {
+app.post('/userProfile' , (req, res) => {
 
-    let result_array = new Array();
     signinRequest.email = req.body.email;
-
-    let sql = `SELECT profile_pic,first_name,user_id, content_value, post_text,post_date, email FROM posts , user_info, user_auth WHERE posts.user_id=user_info.id AND user_info.id=user_auth.id AND user_auth.email='${signinRequest.email}'`;
+    let result_array = new Array();
+    let sql = `SELECT profile_pic, gender, date_of_birth,first_name FROM user_info, user_auth WHERE user_info.id = user_auth.id AND user_auth.email = '${signinRequest.email}'`;
     try{
-    // db.execute(sql).then(resp =>{
-    //     if(resp.length>0){
-    //     let user_id = resp[0].user_id;
-    //     result_array = result_array.concat(resp);
-    //     console.log(resp);
-                  
-    //         result_array = result_array.concat( result_arr);
-    //         genericResponse.status= '200';
-    //         genericResponse.data= result_array;
-    //         console.log(genericResponse);
-    //         res.send(genericResponse);
+    db.execute(sql).then(resp =>{
+        if(resp.length>0){
+        result_array = result_array.concat(resp);
+        console.log(resp);
+                        
+        
+            genericResponse.status= '200';
+            genericResponse.data= result_array;
+            console.log(genericResponse);
+            res.send(genericResponse);
                                            
-    //     }        
-    // });
+        }        
+    });
 
     }
     catch(err){

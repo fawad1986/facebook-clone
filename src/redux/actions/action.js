@@ -20,6 +20,14 @@ let actions = {
                 ...showRequest
         ]
         }
+    },
+    userProfile : function(userProfileRequest){
+        return {
+            type: constants.UserProfileAction,
+            payload:[
+                ...userProfileRequest
+        ]
+        }
     }
 
 }

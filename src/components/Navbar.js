@@ -1,7 +1,79 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { FaFacebook,FaSistrix,FaHome,FaUserFriends,FaVideo,FaUsers,FaGamepad, FaPlus, FaFacebookMessenger, FaBell, FaCaretDown} from 'react-icons/fa'
- 
-function Navbar() {
+import SignUpReq from '../server/requests/signUpRequest';
+import Profile from './Profile.js'
+import {seachFriendRequest,addFriendRequest} from '../util/requestDispatcher'
+import { connect } from 'react-redux';
+import actions from '../redux/actions/action'
+import IdReq from '../server/requests/idRequest';
+
+function Navbar(props) {
+
+    const [state, setState] = useState({"id":"","first_name": "","profile_pic": ""});
+   
+
+
+    function handleChange(e){
+        setState({
+            ...state,
+            [e.target.name] : e.target.value
+        });
+        
+        e.preventDefault();
+    }
+
+    function handleSubmit(e){
+        let searchFirstName = new SignUpReq();
+    searchFirstName.setFirstName(state.first_name);
+
+        handleSearchFriend(searchFirstName);
+        e.preventDefault();
+    }
+
+    const toggleForm=()=> {
+        let toggle = document.getElementById('profile-toggle');
+        if(toggle.style.display === 'none'){
+            toggle.style.display ='block';
+        } else{
+            toggle.style.display = 'none'
+        }
+    }
+
+    let idReq = new IdReq();
+        idReq.setCurrentUserId(props.id);
+        idReq.setAddFriendId(state.id);
+    function sendFriendRequest(){
+        console.log(idReq);
+    handleaddFriend(idReq);
+    }
+    
+    
+    
+ async function handleaddFriend(idoReq){
+    
+     let res = await addFriendRequest(idoReq);
+    
+     switch(res.status){
+         case '200':
+             props.login(idReq)
+             console.log(res.data);            
+     }
+ }
+
+
+    let searchFirstName = new SignUpReq();
+    searchFirstName.setFirstName(state.first_name); 
+
+    async function handleSearchFriend(searchFirstName){
+        let res = await seachFriendRequest(searchFirstName);
+        switch(res.status){
+            case '200':
+                
+                setState(res.data);
+                console.log(res.data);            
+        }
+    }
+
     return (
         <div className='navbar'>
             <div className='navbar__first'>
@@ -9,8 +81,19 @@ function Navbar() {
                     <FaFacebook className="navbar__logo"/>
                 </div>
                 <div className='navbar__first-search'>
-                    <input type='text' className='navbar__first-searchbar' placeholder="Facebook Search" />
+                    <form onSubmit={handleSubmit}>
+                    <input type='text' className='navbar__first-searchbar' placeholder="Facebook Search" name='first_name' value={state.first_name} onChange={handleChange} />
+                    <button className='navabr__searchbutton' type="submit" value = 'Submit'>Search</button>
+                    </form>
                     <FaSistrix className="navabr__searchicon" />
+                    {state.length >0 && state.map(post=> (
+                    <div className="searchResult">
+                        <div className='searchName'>{post.first_name}</div>
+                        <div className="sidebar__list-img">                       
+                            <img src={post.profile_pic}/>
+                        </div>
+                        <div><button className='addFriendButton' type='submit' value="Submit" onClick={sendFriendRequest}>Add Friend</button></div>
+                    </div>))}
                 </div>
 
             </div>
@@ -34,7 +117,8 @@ function Navbar() {
             </div>
             <div className='navbar__last'>
                 <span className="navbar__last-section">
-                    <FaPlus/>
+                    <button className="plus-button" type='button' onClick={toggleForm} ><FaPlus/></button>
+                    <div id="profile-toggle"><Profile/></div>
                 </span>
                 <span className="navbar__last-section">
                     <FaFacebookMessenger/>
@@ -50,4 +134,19 @@ function Navbar() {
     )
 }
 
-export default Navbar
+
+
+const mapStateToProps = (state) => {
+    return {id : (state.App.id ? state.App.id : '')};
+}
+  
+  const mapDispatchToProps = (dispatch) => {
+    return {
+
+        login : loginRequest => dispatch(actions.loginUser(loginRequest))
+    }
+  };
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
+
+//export default Navbar
