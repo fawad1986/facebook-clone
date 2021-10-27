@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { FaFacebook,FaSistrix,FaHome,FaUserFriends,FaVideo,FaUsers,FaGamepad, FaPlus, FaFacebookMessenger, FaBell, FaCaretDown} from 'react-icons/fa'
 import SignUpReq from '../server/requests/signUpRequest';
 import Profile from './Profile.js'
-import {seachFriendRequest,addFriendRequest} from '../util/requestDispatcher'
+import {searchFriendRequest,addFriendRequest} from '../util/requestDispatcher'
 import { connect } from 'react-redux';
 import actions from '../redux/actions/action'
 import IdReq from '../server/requests/idRequest';
@@ -39,19 +39,20 @@ function Navbar(props) {
         }
     }
 
-    let idReq = new IdReq();
-        idReq.setCurrentUserId(props.id);
-        idReq.setAddFriendId(state.id);
     function sendFriendRequest(){
-        console.log(idReq);
+        
+    let idReq = new IdReq();
+    idReq.setCurrentUserId(props.id);
+    idReq.setAddFriendId(state[0].id);
+        console.log(state[0].id);
     handleaddFriend(idReq);
     }
     
     
     
- async function handleaddFriend(idoReq){
+ async function handleaddFriend(idReq){
     
-     let res = await addFriendRequest(idoReq);
+     let res = await addFriendRequest(idReq);
     
      switch(res.status){
          case '200':
@@ -65,7 +66,7 @@ function Navbar(props) {
     searchFirstName.setFirstName(state.first_name); 
 
     async function handleSearchFriend(searchFirstName){
-        let res = await seachFriendRequest(searchFirstName);
+        let res = await searchFriendRequest(searchFirstName);
         switch(res.status){
             case '200':
                 

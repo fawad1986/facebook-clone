@@ -146,7 +146,7 @@ export async function sendUserProfileRequest(profileRequestObject){
               }
               
  }
- export async function seachFriendRequest(searchRequestObject){
+ export async function searchFriendRequest(searchRequestObject){
 
     let response =  await (await validateFromApi(`http://localhost:5007/searchFriend`,searchRequestObject,'POST')).json();
              console.log("--Recieved data from API");
@@ -199,3 +199,29 @@ export async function sendUserProfileRequest(profileRequestObject){
               }
               
  }
+
+ export async function sendSearchFriendsRequest(searchFriendsRequest){
+
+    let response = await (await validateFromApi(`http://localhost:5002/searchFriends`,searchFriendsRequest,'POST')).json();
+            console.log(response);
+            let error;
+            switch(response.status){
+                case '200':
+                let res = new genericResponse();
+                res.setStatus(response.status);
+                res.setData(response.data);
+                return res;
+                error = new genericError();
+                error.setStatus(response.status);
+                error.setError(response.error);
+                return error;
+                
+                case'404':
+                error = new genericError();
+                error.setStatus(response.error);
+                error.setError(response.error);
+                return error;
+            }
+
+        
+}

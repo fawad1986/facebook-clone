@@ -1,12 +1,12 @@
 const genericError  = require('./responses/errors/genericError.js');
 const genericResponse =require('./responses/genericResponse.js');
-const signinRequest = require('./requests/signInRequest.js');
+const id_req = require('./requests/idReq');
 //const DataService = require('./services/dataService');
 const express = require ('express');
 const mysql = require('mysql')
 const app = express();
 const cors = require('cors');
-const PORT = 5002;
+const PORT = 5008;
 app.use(express.json());
 app.use(cors());
 
@@ -66,26 +66,27 @@ console.log(err);
 
 
 
-app.post('/searchFriends' , (req, res) => {
+app.post('/addFriend' , (req, res) => {
 
+    id_req.currentUserId = req.body.currentUserId;
+    id_req.addFriendId = req.body.addFriendId;
+    console.log(id_req);
     let result_array = new Array();
-    signinRequest.email = req.body.email;
-
-    let sql = `SELECT profile_pic,first_name FROM user_info, friends WHERE friends.user1_id = user_info.id and friends.user2_id IN (SELECT user2_id FROM friends,user_info WHERE friends.user1_id = user_info.id AND  user_info.id ='${signinRequest.email}' ) `;
+    let sql = `INSERT INTO friends (user1_id, user2_id) VALUES ('${id_req.currentUserId}','${id_req.addFriendId}')`;
     try{
     db.execute(sql).then(resp =>{
-                  
         if(resp.length>0){
-            result_array = result_array.concat(resp);
-            console.log(resp);
-                            
-            
-                genericResponse.status= '200';
-                genericResponse.data= result_array;
-                console.log(genericResponse);
-                res.send(genericResponse);
-        }
-                       
+        result_array = result_array.concat(resp);
+        console.log(resp);
+                        
+        
+            genericResponse.status= '200';
+            genericResponse.data= result_array;
+            res.status(200);
+            console.log(genericResponse);
+            res.send(genericResponse);
+                                           
+        }        
     });
 
     }

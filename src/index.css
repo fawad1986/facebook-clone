@@ -190,7 +190,7 @@
   padding: 15px 45px;
   border: none;
   background-color: #fff;
-  
+  position: absolute;
 }
 .searchName{
   position: absolute;
@@ -500,4 +500,14 @@ border-radius: 10px;
   display: flex;
   top: 0px;
   position: relative;
+}
+.sidebar__icons{
+  color: #0d8cf1;
+  font-size: 40px;
+  margin:10px;
+}
+.sidebar__text{
+  margin: 10px;
+  position:absolute;
+  padding-top:10px;
 }

@@ -7,7 +7,7 @@ export default class IdReq{
         
     }
     setCurrentUserId(newId){
-        this.id = newId;
+        this.currentUserId = newId;
     }
     getCurrentUserId(){
         return this.currentUserId;

@@ -1,50 +1,67 @@
 import React,{useState,useEffect} from 'react'
+import {sendSearchFriendsRequest} from '../util/requestDispatcher'
+import SignInReq from '../server/requests/signInRequest';
+import { connect } from 'react-redux';
+import actions from '../redux/actions/action'
 
 function ChatBar(props) {
     
-    const fetchDataFromApi = () =>
-    {
-
-        //Get data from Api here
-        let fakeUserData = {
-            chatbar: [{id:1, image:'/images/one.png', name: 'UI-UX' },
-            {id:2, image:'/images/two.png', name: 'SEO' },
-            {id:3, image:'/images/three.jpg', name: 'Web Development' },
-            {id:4, image:'/images/four.png', name: 'Call Center Solutions' },
-            {id:5, image:'/images/five.png', name: 'Branding' },
-            {id:6, image:'/images/six.jpg', name: 'Software Development' } ]
-    
-        };
-        return fakeUserData;
-        
-
-    }
-    const [state,setState]= useState({chatbar:[]});
+    const [state,setState]= useState([{"profile_pic": "","first_name":""}]);
 
 
     useEffect(
         ()=>{
-            let data = fetchDataFromApi();
-            setState(data);
+            fetchDataFromApi(searchFriendsRequest);
+            
         },[]
     );
+
+
+    let searchFriendsRequest = new SignInReq();
+    searchFriendsRequest.setEmail(props.id);
+
+    async function fetchDataFromApi (searchFriendsRequest) {
+
+       let res = await sendSearchFriendsRequest(searchFriendsRequest)
+        switch(res.status){
+            case '200':
+                
+                setState(res.data);            
+        }
+
+    }
+    
 
 
 
 
     return (
         <div className="chatbar">
-            {state.chatbar.map(chat => (
+            {state.map(friend => (
             <div className="chatbar__list">
                 <div className="chatbar__list-img">
-                    <img src={chat.image} />
+                    <img src={friend.profile_pic} />
                     <span className="status"></span>
                 </div>
-                <div className="chatbar__list-name">{chat.name}</div>
+                <div className="chatbar__list-name">{friend.first_name}</div>
             </div>
             ))}
         </div>
     )
 }
 
-export default ChatBar
+const mapStateToProps = (state) => {
+    return {id : (state.App.id ? state.App.id : '')
+  };
+}
+  
+//   const mapDispatchToProps = (dispatch) => {
+//     return {
+
+//         userprofile : userProfileRequest => dispatch(actions.userProfile(userProfileRequest))
+//     }
+//   };
+  
+  export default connect(mapStateToProps, null)(ChatBar);
+
+//export default ChatBar
