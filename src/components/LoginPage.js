@@ -3,7 +3,7 @@ import SignInReq from '../server/requests/signInRequest';
 import { connect } from 'react-redux';
 import actions from '../redux/actions/action'
 import {sendLoginRequest} from '../util/requestDispatcher'
-
+import {useHistory} from 'react-router-dom'
 
 function LoginPage(props) {
     const [stateObj, setStateObj] = useState( {"Email":'',"Password":'',"id":''} );
@@ -11,7 +11,7 @@ function LoginPage(props) {
     function handleChange(e){
         setStateObj({...stateObj, [e.target.name] : e.target.value});
     }
-
+    const history = useHistory();
     function handleSubmit(e){
         console.log('A name was submitted: ' + stateObj.Email);
         console.log('A phone was submitted: ' + stateObj.Password);
@@ -23,7 +23,6 @@ function LoginPage(props) {
         //Came from redux
         handleSendLogin(signInRequest);
         //props.login(signInRequest);
-       
     }
 
     async function handleSendLogin(req){
@@ -33,7 +32,7 @@ function LoginPage(props) {
         signInRes.UserName = stateObj.Email;
         signInRes.id = res.data.id;
         props.login(signInRes);
-
+        history.push('/timeline')
     }
 
     return (

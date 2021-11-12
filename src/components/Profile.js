@@ -4,6 +4,10 @@ import { connect } from 'react-redux';
 import actions from '../redux/actions/action';
 import {sendUserProfileRequest} from '../util/requestDispatcher';
 import SignInReq from '../server/requests/signInRequest';
+import { FaPlus} from 'react-icons/fa';
+import Showpost from './Showpost';
+import Create from './Create';
+import Navbar from './Navbar'
 
 function Profile(props) {
     const [state,setState] = useState({posts:
@@ -11,6 +15,7 @@ function Profile(props) {
             "profile_pic": "",
             "gender": "",
             "first_name":"",
+            "last_name":"",
             "date_of_birth": ""
         }]}
     );
@@ -36,23 +41,33 @@ function Profile(props) {
     return (
         
         <div className='main-profile'>
-            
+            <Navbar/>
             <div className='profile-body'>
-                <div className='sidebar__list-img'>
+                <div className='profile_banner'>
                     <img src={props.posts[0].profile_pic} />
                 </div>
-                <div className="sidebar__list-name">
-                  Name:  {props.posts[0].first_name}
-                </div>
-                <div className="sidebar__list-name">
-                    Date of Birth: {props.posts[0].date_of_birth}
-                </div>
-                <div className="sidebar__list-name">
-                    Gender:{props.posts[0].gender}
-                </div>
-
-            </div>
+                <div className="profile__info">
+                    <div className="sidebar__list-name">
+                    <h2>{props.posts[0].first_name} {props.posts[0].last_name}</h2>
+                    </div>
                     
+                </div>
+                <div className='profile__options'>
+                    <p>Posts</p>
+                    <p>About</p>
+                    <p>Friends</p>
+                    <p>Photos</p>
+                    <p>Story Archive</p>
+                    <p>More</p>
+                    <button className="profile__button"><FaPlus/>Add Story</button>
+                    <button className="profile__button-edit">Edit Profile</button>
+
+                </div>
+            </div>
+            <div className="components">
+            <Create/>
+            <Showpost/>
+            </div>
         </div>
     )
 }
@@ -63,6 +78,7 @@ const mapStateToProps = (state) => {
         "profile_pic": "",
         "gender": "",
         "first_name":"",
+        "last_name":"",
         "date_of_birth": ""
     }])
   };

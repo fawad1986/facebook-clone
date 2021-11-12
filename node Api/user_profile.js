@@ -70,7 +70,7 @@ app.post('/userProfile' , (req, res) => {
 
     signinRequest.email = req.body.email;
     let result_array = new Array();
-    let sql = `SELECT profile_pic, gender, date_of_birth,first_name FROM user_info, user_auth WHERE user_info.id = user_auth.id AND user_auth.email = '${signinRequest.email}'`;
+    let sql = `SELECT profile_pic, gender, date_of_birth,first_name,last_name FROM user_info, user_auth WHERE user_info.id = user_auth.id AND user_auth.email = '${signinRequest.email}'`;
     try{
     db.execute(sql).then(resp =>{
         if(resp.length>0){

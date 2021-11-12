@@ -6,6 +6,7 @@ import {searchFriendRequest,addFriendRequest} from '../util/requestDispatcher'
 import { connect } from 'react-redux';
 import actions from '../redux/actions/action'
 import IdReq from '../server/requests/idRequest';
+import {Link} from 'react-router-dom'
 
 function Navbar(props) {
 
@@ -79,7 +80,7 @@ function Navbar(props) {
         <div className='navbar'>
             <div className='navbar__first'>
                 <div className="navbar__first-logo">
-                    <FaFacebook className="navbar__logo"/>
+                    <Link to='/timeline'><FaFacebook className="navbar__logo"/></Link>
                 </div>
                 <div className='navbar__first-search'>
                     <form onSubmit={handleSubmit}>
@@ -118,8 +119,8 @@ function Navbar(props) {
             </div>
             <div className='navbar__last'>
                 <span className="navbar__last-section">
-                    <button className="plus-button" type='button' onClick={toggleForm} ><FaPlus/></button>
-                    <div id="profile-toggle"><Profile/></div>
+                    <Link to='/profile'><FaPlus/></Link>
+                  
                 </span>
                 <span className="navbar__last-section">
                     <FaFacebookMessenger/>
